@@ -14,7 +14,7 @@ export class CocktailFormComponent implements OnInit {
   public cocktailForm: FormGroup = this.initForm();
 
   public get ingredients() {
-    return this.cocktailForm!.get('ingredients') as FormArray;
+    return this.cocktailForm.get('ingredients') as FormArray;
   }
 
   constructor(

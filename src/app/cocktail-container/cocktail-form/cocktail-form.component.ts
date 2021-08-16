@@ -10,10 +10,11 @@ import { CocktailService } from 'src/app/shared/services/cocktail.service';
   styleUrls: ['./cocktail-form.component.scss'],
 })
 export class CocktailFormComponent implements OnInit {
-  public cocktailForm: FormGroup;
-  public cocktail: Cocktail;
+  public cocktail?: Cocktail;
+  public cocktailForm: FormGroup = this.initForm();
+
   public get ingredients() {
-    return this.cocktailForm.get('ingredients') as FormArray;
+    return this.cocktailForm!.get('ingredients') as FormArray;
   }
 
   constructor(
@@ -23,25 +24,20 @@ export class CocktailFormComponent implements OnInit {
     private activatedRoute: ActivatedRoute
   ) {}
 
-  // name: string;
-  // img: string;
-  // description: string;
-  // ingredients: Ingredient[];
-
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
       const index = paramMap.get('index');
       if (index !== null) {
         this.cocktail = this.cocktailService.getCocktail(+index);
+        this.cocktailForm = this.initForm(this.cocktail);
       }
-      this.initForm(this.cocktail);
     });
   }
 
   private initForm(
     cocktail: Cocktail = { name: '', description: '', img: '', ingredients: [] }
-  ): void {
-    this.cocktailForm = this.fb.group({
+  ): FormGroup {
+    return this.fb.group({
       name: [cocktail.name, Validators.required],
       img: [cocktail.img, Validators.required],
       description: [cocktail.description, Validators.required],
@@ -56,11 +52,6 @@ export class CocktailFormComponent implements OnInit {
       ),
     });
   }
-
-  // export interface Ingredient {
-  //   name: string;
-  //   quantity: number;
-  // }
 
   public addIngredient(): void {
     this.ingredients.push(

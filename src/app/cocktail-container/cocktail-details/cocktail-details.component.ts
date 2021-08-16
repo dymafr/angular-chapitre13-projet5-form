@@ -16,11 +16,18 @@ export class CocktailDetailsComponent implements OnInit {
     private panierService: PanierService,
     private cocktailService: CocktailService,
     private activatedRoute: ActivatedRoute
-  ) {}
+  ) {
+    this.cocktail = this.cocktailService.getCocktail(
+      +this.activatedRoute.snapshot.paramMap.get('index')!
+    );
+  }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
-      this.cocktail = this.cocktailService.getCocktail(+paramMap.get('index'));
+      const cocktailIndex = paramMap.get('index');
+      if (cocktailIndex) {
+        this.cocktail = this.cocktailService.getCocktail(+cocktailIndex);
+      }
     });
   }
 

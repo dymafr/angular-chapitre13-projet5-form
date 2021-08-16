@@ -21,5 +21,10 @@ export class SelectedDirective implements OnChanges {
     }
   }
 
-  constructor() {}
+  constructor() {
+    this.appSelected = false;
+    this.backgroundColor = 'white';
+    this.fontWeight = '400';
+    this.color = 'var(--text-regular)';
+  }
 }
